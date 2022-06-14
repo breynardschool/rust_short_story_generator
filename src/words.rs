@@ -52,7 +52,7 @@ pub mod words
             .collect();
         
         let mut name = lines.to_vec()[thread_rng().gen_range(0..671)].to_string();
-        name.replace_range(0..0, &name.chars().nth(0).unwrap().to_string().as_str().to_uppercase());
+        name.replace_range(0..1, &name.chars().nth(0).unwrap().to_string().as_str().to_uppercase());
         name
     }
 }
