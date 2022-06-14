@@ -9,7 +9,7 @@ pub mod words
 
         use rand::prelude::*;
 
-        let file = File::open("./src/resources/words/nouns.txt").expect("no such file");
+        let file = File::open("./src/resources/wordslist/nouns.txt").expect("no such file");
         let buf = BufReader::new(file);
         let lines: Vec<String> = buf.lines()
             .map(|l| l.expect("Could not parse line"))
@@ -27,7 +27,7 @@ pub mod words
 
         use rand::prelude::*;
 
-        let file = File::open("./src/resources/words/adjectives.txt").expect("no such file");
+        let file = File::open("./src/resources/wordslist/adjectives.txt").expect("no such file");
         let buf = BufReader::new(file);
         let lines: Vec<String> = buf.lines()
             .map(|l| l.expect("Could not parse line"))
@@ -45,7 +45,7 @@ pub mod words
 
         use rand::prelude::*;
 
-        let file = File::open("./src/resources/words/names/surnames/english.txt").expect("no such file");
+        let file = File::open("./src/resources/wordslist/names/surnames/english.txt").expect("no such file");
         let buf = BufReader::new(file);
         let lines: Vec<String> = buf.lines()
             .map(|l| l.expect("Could not parse line"))
