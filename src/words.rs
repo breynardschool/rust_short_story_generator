@@ -1,5 +1,52 @@
 pub mod words
 {
+    pub enum WordType
+    {
+        ADJECTIVE,
+        VERB,
+        NOUN,
+        TRANSITION,
+        ADVERB,
+        NAME
+    }
+
+    enum Token
+    {
+        WORD(String),
+        COMMA,
+        PERIOD,
+        EXCLAMATION,
+        QUESTION,
+        SPECIALCHAR(char),
+        NUMBER(i32),
+        DIALOGUESTART,
+        DIALOGUEEND,
+        INDENT
+    }
+
+    pub fn get_structure(input: String) -> Vec<WordType>
+    {
+        //Initialization
+        let mut output: Vec<WordType> = Vec::new();
+        let adj_list = std::fs::read_to_string(".\\src\\resources\\adjectives.txt").unwrap();
+        let noun_list = std::fs::read_to_string(".\\src\\resources\\nouns.txt").unwrap();
+
+        //Lexer
+        let mut tokens: Vec<Token> = Vec::new();
+        
+        let mut idx: usize = 0;
+        let end: usize = input.len();
+
+        while idx < end
+        {
+
+
+            idx += 1;
+        }
+
+        output
+    }
+
     pub fn rand_noun() -> String
     {
         use std::{
