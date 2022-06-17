@@ -1,5 +1,7 @@
 pub mod words
 {
+    use std::ops::Index;
+
     pub enum WordType
     {
         ADJECTIVE,
@@ -37,16 +39,30 @@ pub mod words
         let mut idx: usize = 0;
         let end: usize = input.len();
 
+        // Token seperation variables
+        let mut dialogue: bool = false;
+        let mut cur_word: String = String::new();
+
         while idx < end
         {
+            let cur_word_read = cur_word.clone();
 
+            match input.as_bytes()[idx] {
+
+                _ => {
+                    if !cur_word_read.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                }
+            }
 
             idx += 1;
         }
 
         output
     }
-
+    
     pub fn rand_noun() -> String
     {
         use std::{
