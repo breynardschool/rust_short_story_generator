@@ -1,6 +1,6 @@
 pub mod words
 {
-    use std::ops::Index;
+    use std::char;
 
     pub enum WordType
     {
@@ -12,7 +12,8 @@ pub mod words
         NAME
     }
 
-    enum Token
+    #[derive(Debug)]
+    pub enum Token
     {
         WORD(String),
         COMMA,
@@ -26,14 +27,9 @@ pub mod words
         INDENT
     }
 
-    pub fn get_structure(input: String) -> Vec<WordType>
+    pub fn lexer(input: String) -> Vec<Token>
     {
-        //Initialization
-        let mut output: Vec<WordType> = Vec::new();
-        let adj_list = std::fs::read_to_string(".\\src\\resources\\adjectives.txt").unwrap();
-        let noun_list = std::fs::read_to_string(".\\src\\resources\\nouns.txt").unwrap();
-
-        //Lexer
+        // Initialization
         let mut tokens: Vec<Token> = Vec::new();
         
         let mut idx: usize = 0;
@@ -47,12 +43,151 @@ pub mod words
         {
             let cur_word_read = cur_word.clone();
 
-            match input.as_bytes()[idx] {
+            match input.as_bytes().to_vec()[idx] {
+                // Comma
+                44 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::COMMA);
+                }
+                //Period
+                46 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::PERIOD);
+                }
+                //Exclamation
+                33 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::EXCLAMATION);
+                }
+                // Question
+                63 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::QUESTION);
+                }
+                //Numbers
+                48 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(0));
+                }
+                49 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(1));
+                }
+                50 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(2));
+                }
+                51 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(3));
+                }
+                52 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(4));
+                }
+                53 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(5));
+                }
+                54 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(6));
+                }
+                55 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(7));
+                }
+                56 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(8));
+                }
+                57 => {
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    tokens.push(Token::NUMBER(9));
+                }
+                // Dialogue
+                34 => {
+                    if dialogue == true {
+                        tokens.push(Token::DIALOGUEEND);
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                        dialogue = false;
+                    }
+                    else {
+                        tokens.push(Token::DIALOGUESTART);
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                        dialogue = true;
+                    }
 
+                }
+                // Indent
+                9 => {
+                    tokens.push(Token::INDENT);
+                    tokens.push(Token::WORD(cur_word_read));
+                    cur_word = String::new();
+                    dialogue = false;
+                }
+                // Words
+                65..=89 => {
+                    cur_word.push(char::from_u32(input.as_bytes().to_vec()[idx] as u32).unwrap());
+                }
+                97..=122 => {
+                    cur_word.push(char::from_u32(input.as_bytes().to_vec()[idx] as u32).unwrap());
+                }
+                //Space
+                32 => {
+                    if !cur_word_read.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                }
                 _ => {
                     if !cur_word_read.to_string().is_empty() {
                         tokens.push(Token::WORD(cur_word_read));
                         cur_word = String::new();
+                    }
+
+                    let c = input.as_bytes().to_vec()[idx] as u32;
+                    let literal = char::from_u32(input.as_bytes().to_vec()[idx] as u32).unwrap();
+                    
+                    if c >= 35 && c <= 47
+                    {
+                        tokens.push(Token::SPECIALCHAR(literal));
+                    }
+
+                    if c >= 58 && c <= 64
+                    {
+                        tokens.push(Token::SPECIALCHAR(literal));
+                    }
+
+                    if c >= 91 && c <= 96
+                    {
+                        tokens.push(Token::SPECIALCHAR(literal));
+                    }
+
+                    if c >= 123 && c <= 126
+                    {
+                        tokens.push(Token::SPECIALCHAR(literal));
+                    }
+
+                    if c >= 128
+                    {
+                        tokens.push(Token::SPECIALCHAR(literal));
                     }
                 }
             }
@@ -60,7 +195,12 @@ pub mod words
             idx += 1;
         }
 
-        output
+        // Final word
+        if !cur_word.to_string().is_empty() {
+            tokens.push(Token::WORD(cur_word));
+        }
+
+        tokens
     }
     
     pub fn rand_noun() -> String

@@ -2,5 +2,7 @@ use rust_short_story_generator::words::words::*;
 
 fn main() 
 {
-    println!("{}", rand_name());
+    let s = lexer("RHdq%#Bqsg#DseF&jU!v".to_string());
+
+    println!("{:?}", s);
 }
