@@ -38,6 +38,7 @@ pub mod words
         // Token seperation variables
         let mut dialogue: bool = false;
         let mut cur_word: String = String::new();
+        let mut cur_num: i32 = 0;
 
         while idx < end
         {
@@ -46,91 +47,167 @@ pub mod words
             match input.as_bytes().to_vec()[idx] {
                 // Comma
                 44 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
+                    if !cur_word_read.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+
+                    if cur_num != 0 {
+                        tokens.push(Token::NUMBER(cur_num));
+                        cur_num = 0;
+                    }
+
                     tokens.push(Token::COMMA);
                 }
                 //Period
                 46 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
+                    if !cur_word_read.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+
+                    if cur_num != 0 {
+                        tokens.push(Token::NUMBER(cur_num));
+                        cur_num = 0;
+                    }
                     tokens.push(Token::PERIOD);
                 }
                 //Exclamation
                 33 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
+                    if !cur_word_read.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+
+                    if cur_num != 0 {
+                        tokens.push(Token::NUMBER(cur_num));
+                        cur_num = 0;
+                    }
+                    
                     tokens.push(Token::EXCLAMATION);
                 }
                 // Question
                 63 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
+                    if !cur_word_read.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+
+                    if cur_num != 0 {
+                        tokens.push(Token::NUMBER(cur_num));
+                        cur_num = 0;
+                    }
+
                     tokens.push(Token::QUESTION);
                 }
                 //Numbers
                 48 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(0));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
                 }
                 49 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(1));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 1;
                 }
                 50 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(2));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 2;
                 }
                 51 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(3));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 3;
                 }
                 52 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(4));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 4;
                 }
                 53 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(5));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 5;
                 }
                 54 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(6));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 6;
                 }
                 55 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(7));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 7;
                 }
                 56 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(8));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 8;
                 }
                 57 => {
-                    tokens.push(Token::WORD(cur_word_read));
-                    cur_word = String::new();
-                    tokens.push(Token::NUMBER(9));
+                    if !cur_word.to_string().is_empty() {
+                        tokens.push(Token::WORD(cur_word_read));
+                        cur_word = String::new();
+                    }
+                    cur_num *= 10;
+                    cur_num += 9;
                 }
                 // Dialogue
                 34 => {
                     if dialogue == true {
+                        if !cur_word_read.to_string().is_empty() {
+                            tokens.push(Token::WORD(cur_word_read));
+                            cur_word = String::new();
+                        }
+
+                        if cur_num != 0 {
+                            tokens.push(Token::NUMBER(cur_num));
+                            cur_num = 0;
+                        }
+                        
                         tokens.push(Token::DIALOGUEEND);
-                        tokens.push(Token::WORD(cur_word_read));
-                        cur_word = String::new();
                         dialogue = false;
                     }
                     else {
+                        if !cur_word_read.to_string().is_empty() {
+                            tokens.push(Token::WORD(cur_word_read));
+                            cur_word = String::new();
+                        }
+
+                        if cur_num != 0 {
+                            tokens.push(Token::NUMBER(cur_num));
+                            cur_num = 0;
+                        }
+
                         tokens.push(Token::DIALOGUESTART);
-                        tokens.push(Token::WORD(cur_word_read));
-                        cur_word = String::new();
                         dialogue = true;
                     }
 
@@ -144,9 +221,19 @@ pub mod words
                 }
                 // Words
                 65..=89 => {
+                    if cur_num != 0 {
+                        tokens.push(Token::NUMBER(cur_num));
+                        cur_num = 0;
+                    }
+
                     cur_word.push(char::from_u32(input.as_bytes().to_vec()[idx] as u32).unwrap());
                 }
                 97..=122 => {
+                    if cur_num != 0 {
+                        tokens.push(Token::NUMBER(cur_num));
+                        cur_num = 0;
+                    }
+
                     cur_word.push(char::from_u32(input.as_bytes().to_vec()[idx] as u32).unwrap());
                 }
                 //Space
@@ -157,6 +244,12 @@ pub mod words
                     }
                 }
                 _ => {
+
+                    if cur_num != 0 {
+                        tokens.push(Token::NUMBER(cur_num));
+                        cur_num = 0;
+                    }
+
                     if !cur_word_read.to_string().is_empty() {
                         tokens.push(Token::WORD(cur_word_read));
                         cur_word = String::new();
@@ -198,6 +291,12 @@ pub mod words
         // Final word
         if !cur_word.to_string().is_empty() {
             tokens.push(Token::WORD(cur_word));
+        }
+
+        // Final number
+
+        if cur_num != 0 {
+            tokens.push(Token::NUMBER(cur_num));
         }
 
         tokens
